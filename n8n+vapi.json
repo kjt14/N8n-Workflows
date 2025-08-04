@@ -1,0 +1,171 @@
+{
+  "name": "n8n+vapi",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "85e44fa1-e7d1-48c0-ada2-3e0aaef37b69",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer c93cce4b-324f-4704-8959-00348e093270"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"assistantId\": \"4ac440e3-ee7c-463e-ac62-9f1afa447a2d\",\n  \"phoneNumberId\": \"adaa8a7d-a137-497a-bae2-d3728e346d83\",\n  \"customer\": {\n    \"number\": \"+1 (616) 377 1789\"\n  },\n  \"metadata\": {\n    \"n8n_trigger\": \"order_placed\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8fceabf7-ae6c-4b36-84b9-dc2eba2a8dc7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1vK_eDx82KsDTDJGsPUk2Fg7x5H8LXsNb_d-_N7Yw_jk",
+          "mode": "list",
+          "cachedResultName": "Vapi",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vK_eDx82KsDTDJGsPUk2Fg7x5H8LXsNb_d-_N7Yw_jk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vK_eDx82KsDTDJGsPUk2Fg7x5H8LXsNb_d-_N7Yw_jk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Call id ": "={{ $json.phoneNumberId }}",
+            "Status ": "={{ $json.status }}",
+            "Phone number": "={{ $json.customer.number }}",
+            "Created at": "={{ $json.createdAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Call id ",
+              "displayName": "Call id ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status ",
+              "displayName": "Status ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone number",
+              "displayName": "Phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Created at",
+              "displayName": "Created at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        416,
+        0
+      ],
+      "id": "aa816af9-4eaa-4571-bc9b-31687b832718",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HlGwyMEl4OzV6LXW",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6c76845a-37e2-4e10-9dc6-d84cdb718548",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aa3939d5de2bde4718192a97d524282cae92881f01994def90f3c14add562d72"
+  },
+  "id": "Bj3yjq3JhVz3YufI",
+  "tags": []
+}
