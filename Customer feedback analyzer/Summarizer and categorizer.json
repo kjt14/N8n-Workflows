@@ -1,0 +1,91 @@
+{
+  "name": "Summarizer and categorizer",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "24cff824-9073-4e8c-9c56-4c79862056a1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write a concise email response without a subject line, to the feedback provided in the Customer Feedback Form:[{{ $json['Your Feedback'] }}]\n\nFor Positive Feedback ([{{ $json.text }}]): Craft a short, warm email thanking the customer [{{ $json['Name '] }}] for taking the time to share their thoughts. Express genuine appreciation for their support.\n\nFor Negative Feedback ([{{ $json.text }}]): Write a thoughtful, empathetic email thanking the customer [{{ $json['Name '] }}] for their valuable input. Show sincere interest in their perspective by asking how we can improve our services or products. Additionally, include a special offer code for a 20% discount on their next purchase as a gesture of goodwill.\n\nAlways conclude the email with the signature of the Founder and CEO:\n\n\"The AI Agent Guy\".",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4611162a-61dd-4b34-923d-b9b02389432c",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        208
+      ],
+      "id": "96b7f74b-99cd-478f-a91b-fa84af56123a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "N70MN77crveBthoe",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0011dac8-7333-425d-a349-e9bfe6d09505",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "aa3939d5de2bde4718192a97d524282cae92881f01994def90f3c14add562d72"
+  },
+  "id": "wRiUjhKnIRu6jRlZ",
+  "tags": []
+}
